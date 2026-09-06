@@ -13,7 +13,7 @@ int main(){
         
         std::this_thread::sleep_for(std::chrono::seconds(2));  
         send_("hi", "127.0.0.1", "8000");
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::seconds(10));
         delete server1;
     }catch(const boost::system::system_error& e){
         std::cerr << "Message: " << e.what() << "\n";
@@ -24,20 +24,3 @@ int main(){
 
 
 
-bool send_(std::string message, std::string host, std::string port){
-
-    std::cout << "sent";
-
-    boost::asio::io_context io_context;
-
-    udp::resolver resolver(io_context);
-    udp::endpoint server_endpoint = *resolver.resolve(host, port).begin();
-
-    udp::socket socket_(io_context);
-    socket_.open(udp::v4());
-
-    //(recieving_server->socket.value()).async_send_to(boost::asio::buffer(message), server_endpoint);
-    socket_.send_to(boost::asio::buffer(message), server_endpoint);
-
-    return true;
-}
